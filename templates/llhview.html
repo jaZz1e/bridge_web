@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拉林河大桥健康监测系统</title>
+    <link rel="stylesheet" type="text/css" href="/static/llh_css/public.css">
+    <link rel="stylesheet" href="/static/llh_css/index.css">
+    <link rel="stylesheet" href="/static/llh_fonts/icomoon.css">
+    <script src="/static/node_modules/three/build/three.js"></script>
+    <script src="/static/node_modules/three/examples/js/loaders/STLLoader.js"></script>
+    <script src="/static/node_modules/three/examples/js/controls/OrbitControls.js"></script>
+    <script src="/static/node_modules/three/examples/js/libs/stats.min.js"></script>
+    <script src="/static/node_modules/three/examples/js/libs/dat.gui.min.js"></script>
+    <script src="/static/node_modules/echarts/dist/echarts.js"></script>
+    <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
+    <script src='https://vjs.zencdn.net/7.4.1/video.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"
+            type="text/javascript"></script>
+
+</head>
+<body>
+<div class="test">
+    <ul class="right_nav">
+        <li>
+            <div class="iconBox">
+                <img src='/static/llh_images/rnqq.png'>
+                <h4>实时监控</h4>
+            </div>
+        </li>
+        <li>
+            <div class="iconBox">
+                <img src='/static/llh_images/rncall.png'>
+                <h4>历史数据</h4>
+            </div>
+        </li>
+        <li>
+            <div class="iconBox">
+                <img src='/static/llh_images/rnphone.png'>
+                <h4>结构诊断</h4>
+            </div>
+        </li>
+        <li>
+            <div class="iconBox">
+                <img src='/static/llh_images/rnmsg.png'>
+                <h4>关于</h4>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="viewport">
+    <div class="column">
+        <!--概览-->
+        <div class="overview panel">
+            <div class="inner">
+                <div class="item">
+                    <h4>2,190</h4>
+                    <span>
+                      <i class="icon-dot" style="color: #006cff"></i>
+                      设备总数
+                    </span>
+                </div>
+                <div class="item">
+                    <h4>190</h4>
+                    <span>
+                      <i class="icon-dot" style="color: #6acca3"></i>
+                      运行设备
+                    </span>
+                </div>
+                <div class="item">
+                    <h4>3,001</h4>
+                    <span>
+                      <i class="icon-dot" style="color: #6acca3"></i>
+                      关闭设备
+                    </span>
+                </div>
+                <div class="item">
+                    <h4>108</h4>
+                    <span>
+                      <i class="icon-dot" style="color: #ed3f35"></i>
+                      异常设备
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!--监控-->
+        <!--监控-->
+        <div class="monitor panel">
+            <div class="inner">
+                <div class="tabs">
+                    <a href="javascript:" data-index="0" class="active">监控1</a>
+                    <a href="javascript:" data-index="1">监控2</a>
+                </div>
+                <div class="content" style="display: block;">
+                    <style>
+                        .video-js .vjs-tech {
+                            position: relative !important;
+                        }
+                    </style>
+                    <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"
+                           data-setup='{}' style='width: 95%;height: 95%;margin: 0 auto;'>
+                        <source id="source" src="http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8"
+                                type="application/x-mpegURL"></source>
+                    </video>
+                    <script>
+                        // videojs 简单使用
+                        var myVideo = videojs('myVideo', {
+                            bigPlayButton: true,
+                            textTrackDisplay: false,
+                            posterImage: false,
+                            errorDisplay: false,
+                        })
+                        myVideo.play()
+
+                    </script>
+                </div>
+                <div class="content">
+
+                </div>
+            </div>
+        </div>
+        <!--点位-->
+        <!-- 点位 -->
+        <div class="point panel">
+            <div class="inner" id="crossbg">
+                <div class="crosstabs">
+                    <a href="javascript:" data-index="0" class="active1" id="tabKz">跨中截面</a>
+                    <a href="javascript:" data-index="1" id="tabKn">跨南截面</a>
+                    <a href="javascript:" data-index="2" id="tabKb">跨北截面</a>
+                </div>
+                <div class="crosscontent" style="display: block;" id="tabKzDis">
+                    {#                    <img class="crossbg" src="/static/img/zl_cross.PNG">#}
+                    <ul>
+                        <li><img class="crosssensorkz" id="kzlocalpos1" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos2" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos3" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos4" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos5" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos6" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos7" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos8" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos9" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos10" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos11" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos12" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkz" id="kzlocalpos13" width="15px"
+                                 src="/static/llh_images/sensor1_red.png">
+                        </li>
+
+                    </ul>
+
+                </div>
+                <div class="crosscontent" id="tabKnDis">
+                    {#                    <img class="crossbg" width="100%" height="100%" src="/static/img/zl_cross.PNG">#}
+                    <ul>
+                        <li><img class="crosssensorkn" id="knlocalpos1" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos2" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos3" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos4" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos5" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos6" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos7" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos8" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos9" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos10" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos11" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos12" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkn" id="knlocalpos13" width="15px"
+                                 src="/static/llh_images/sensor1_red.png">
+                        </li>
+                    </ul>
+                </div>
+                <div class="crosscontent" id="tabKbDis">
+                    {#                    <img class="crossbg" width="100%" height="100%" src="/static/img/zl_cross.PNG">#}
+                    <ul>
+                        <li><img class="crosssensorkb" id="kblocalpos1" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos2" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos3" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos4" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos5" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos6" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos7" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos8" width="15px" src="/static/img/sensor.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos9" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos10" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos11" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos12" width="15px"
+                                 src="/static/llh_images/sensor1_blue.png">
+                        </li>
+                        <li><img class="crosssensorkb" id="kblocalpos13" width="15px"
+                                 src="/static/llh_images/sensor1_red.png">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id=sensormark>
+                <ul class="marks">
+                    <li><img class="strainmarker" width="15px" src="/static/img/sensor.png">
+                        <label>应变</label></li>
+                    <li><img class="crackmarker" width="15px" src="/static/llh_images/sensor1_blue.png">
+                        <label>裂缝</label></li>
+                    <li><img class="accmarker" width="15px" src="/static/llh_images/sensor1_red.png">
+                        <label>加速度</label></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="map">
+            <h3>
+                <span class="icon-cube"></span>
+                三维视图
+            </h3>
+            <div class="chart">
+                <div class="geo" id="threedimdis"></div>
+            </div>
+        </div>
+        <!--用户-->
+        <!-- 用户 -->
+        <div class="users panel">
+            <div class="inner" id="rtdisplay">
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <!--订单-->
+        <!-- 订单 -->
+        <div class="order panel">
+            <div class="inner">
+                <canvas id="canvas" style="margin: 0 auto;"></canvas>
+            </div>
+        </div>
+        <!--销售-->
+        <!-- 销售额 -->
+        <div class="sales panel">
+            <div class="inner">
+                <div class="caption">
+                    <h3>环境变化曲线</h3>
+                    <a href="javascript:" class="active" data-type="tmp">温度</a>
+                </div>
+                <div class="chart">
+                    {#                    <div class="label">单位:万</div>#}
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 渠道 季度 -->
+        <div class="wrap">
+            <div class="channel panel">
+                <div class="inner">
+                    <h3>桥梁状态</h3>
+                    <div class="data">
+                        <div class="item" id="box1">
+                            <h4><img class="statelabel" width="20px" src="/static/llh_images/safe.png"
+                                     alt="strainstate"></h4>
+                            <span>应变</span>
+                        </div>
+                        <div class="item" id="box2">
+                            <h4><img class="statelabel" width="20px" src="/static/llh_images/safe.png" alt="crackstate">
+                            </h4>
+                            <span>
+
+                    裂缝
+                  </span>
+                        </div>
+                    </div>
+                    <div class="data" id="box3">
+                        <div class="item">
+                            <h4><img class="statelabel" width="20px" src="/static/llh_images/safe.png" alt="accstate">
+                            </h4>
+                            <span>
+
+                    加速度
+                  </span>
+                        </div>
+                        <div class="item" id="box4">
+                            <h4><img class="statelabel" width="20px" src="/static/llh_images/safe.png" alt="accstate">
+                            </h4>
+                            <span>
+
+                    状态
+                  </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="quarter panel">
+                <div class="inner">
+                    <h3>风速图</h3>
+
+                </div>
+            </div>
+        </div>
+        <!--排行-->
+        <!-- 排行榜 -->
+        <div class="top panel">
+            <div class="inner">
+                <div class="list_box">
+		<table class="PT_projectitem_list">
+				<thead class="foreign_thead">
+					<tr>
+						<th>
+							<span>报警传感器</span>
+						</th>
+						<th>
+							<span>报警类型</span>
+						</th>
+						<th>
+							<span>报警时间</span>
+						</th>
+						<th>
+							<span>处理状态</span>
+						</th>
+						<th>
+							<span>处理人</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody class="foreign_tbody">
+					<tr>
+						<td>
+							<span>1跨中应变4</span>
+						</td>
+						<td>
+							<span>超门限</span>
+						</td>
+						<td>
+							<span>20201221</span>
+						</td>
+						<td>
+							<span>已处理</span>
+						</td>
+						<td>
+							<span>admin</span>
+						</td>
+					</tr>
+				</tbody>
+		</table>
+		</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+{#<script src="https://www.jq22.com/jquery/echarts-4.2.1.min.js"></script>#}
+<script src="/static/llh_js/index.js"></script>
+<script src="/static/llh_js/mainfun.js"></script>
+<script type="module" src="/static/llh_js/threedisplay.js"></script>
+
+<script type="text/javascript" src='/static/llh_js/rightAsk.js'></script>
+<script src="/static/llh_js/digit.js"></script>
+<script src="/static/llh_js/time.js"></script>
+<script>
+
+	setInterval(function(){
+		var	str =
+		           `<tr class="tableactive">
+						<td>
+							<span>1跨中应变4</span>
+						</td>
+						<td>
+							<span>超门限</span>
+						</td>
+						<td>
+							<span>20201221</span>
+						</td>
+						<td>
+							<span>已处理</span>
+						</td>
+						<td>
+							<span>admin</span>
+						</td>
+					</tr>`;
+
+			$(".foreign_tbody").prepend(str);
+	},1000)
+</script>
+
+{#<script src="/static/llh_js//china.js"></script>#}
+{#<script src="/static/llh_js//mymap.js"></script>#}
+</body>
+</html>
